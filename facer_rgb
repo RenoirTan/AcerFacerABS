@@ -1,0 +1,10 @@
+#!/bin/bash
+
+__exec="/usr/lib/acer-facer/facer_rgb.py"
+
+if [ -f "${__exec}" ]; then
+    ${__exec} $@
+else
+    echo "${__exec} not found!"
+    exit 1
+fi

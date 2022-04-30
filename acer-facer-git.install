@@ -1,0 +1,33 @@
+msg() {
+    echo "acer-facer-git : $1"
+}
+
+post_install() {
+    msg "The PKGBUILD for this package was created by RenoirTan "
+    msg "and is not affiliated with JafarAkhondali's original project at"
+    msg "https://github.com/JafarAkhondali/acer-predator-turbo-and-rgb-keyboard-linux-module"
+    msg ""
+    msg "If you notice anything wrong, do test whether the original project works before"
+    msg "creating an issue on JafarAkhondali's repo."
+    msg ""
+    msg "It's recommended that you have Windows installed in a dual-boot configuration"
+    msg "just in case you have to reset your keyboard or fans."
+    msg ""
+    msg "To enable acer-facer, do:"
+    msg ""
+    msg "    systemctl enable turbo-fan"
+    msg ""
+    msg "You must restart your computer for acer-facer to take effect, "
+    msg "doing systemctl start turbo-fan is not enough. "
+    msg "If you can find /dev/acer-gkbbl-0 and /dev/acer-gkbbl-static-0 after the restart, "
+    msg "it means that I haven't mucked up my first arch linux package"
+}
+
+pre_upgrade() {
+    msg "You must restart your computer before updates to acer-facer take effect"
+}
+
+pre_remove() {
+    systemctl stop turbo-fan
+    systemctl disable turbo-fan
+}
