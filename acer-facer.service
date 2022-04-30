@@ -1,3 +1,5 @@
+# From acer-predator-turbo-and-rgb-keyboard-linux-module/src/install_service.sh
+
 [Unit]
 Description = Enables turbo button
 After=sysinit.target
