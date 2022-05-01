@@ -2,7 +2,7 @@
 
 pkgname='acer-facer-git'
 pkgver='r36.e84ab34'
-pkgrel=1
+pkgrel=2
 pkgdesc='Kernel module and utilities for controlling the RGB keyboard and turbo mode on Acer laptops.'
 url='https://github.com/RenoirTan/AcerFacerABS'
 arch=('x86_64')

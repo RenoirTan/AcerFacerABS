@@ -25,9 +25,12 @@ post_install() {
 
 pre_upgrade() {
     msg "You must restart your computer before updates to acer-facer take effect"
+    systemctl stop turbo-fan
+    systemctl daemon-reload
 }
 
 pre_remove() {
     systemctl stop turbo-fan
     systemctl disable turbo-fan
+    systemctl daemon-reload
 }
