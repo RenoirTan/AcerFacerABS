@@ -1,22 +1,25 @@
 # Maintainer: RenoirTan <renoirtan2005@gmail.com>
 
-pkgname='acer-facer-git'
+_pkgname='acer-facer'
+pkgname="${_pkgname}-git"
+_reponame='acer-predator-turbo-and-rgb-keyboard-linux-module'
 pkgver='r36.e84ab34'
-pkgrel=2
+pkgrel=3
 pkgdesc='Kernel module and utilities for controlling the RGB keyboard and turbo mode on Acer laptops.'
-url='https://github.com/RenoirTan/AcerFacerABS'
+url="https://github.com/JafarAkhondali/${_reponame}.git"
 arch=('x86_64')
 license=('GPL')
 # This package recompiles facer.ko whenever its corresponding systemd service gets started
 # which is why linux-headers, gcc and make are required
-depends=('systemd' 'python' 'bash')
+depends=('systemd' 'python' 'bash' 'linux-headers' 'kmod'
+         'gcc' 'make' 'coreutils' 'util-linux')
 optdepends=()
-makedepends=('git' 'linux-headers' 'gcc' 'make' 'coreutils' 'findutils')
-source=("${pkgname}::git+https://github.com/JafarAkhondali/acer-predator-turbo-and-rgb-keyboard-linux-module.git")
+makedepends=('git' 'coreutils')
+source=("${_reponame}::git+https://github.com/JafarAkhondali/${_reponame}.git")
 sha512sums=('SKIP')
 
 pkgver() {
-    cd ${pkgname}
+    cd "${srcdir}/${_reponame}"
     printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
@@ -30,8 +33,7 @@ prepare() {
 }
 
 build() {
-    cd "${srcdir}/${pkgname}"
-    make
+    echo "nothing to do"
 }
 
 package() {
@@ -39,20 +41,19 @@ package() {
 
     install="acer-facer-git.install"
 
-    for file in ${srcdir}/${pkgname}/* ; do
+    for file in ${srcdir}/${_reponame}/* ; do
         if [ -f "$file" ]; then
             echo "installing $file"
-            install -D -m755 "$file" "${pkgdir}/usr/lib/acer-facer/$(basename $file)"
+            install -D -m755 "$file" "${pkgdir}/opt/turbo-fan/$(basename $file)"
         fi
     done
-    for file in ${srcdir}/${pkgname}/src/* ; do
+    for file in ${srcdir}/${_reponame}/src/* ; do
         if [ -f "$file" ]; then
             echo "installing $file"
-            install -D -m755 "$file" "${pkgdir}/usr/lib/acer-facer/src/$(basename $file)"
+            install -D -m755 "$file" "${pkgdir}/opt/turbo-fan/src/$(basename $file)"
         fi
     done
     install -D -m755 "facer_rgb" "${pkgdir}/usr/bin/facer_rgb"
     install -D -m755 "acer-facer.service" "${pkgdir}/usr/lib/systemd/system/turbo-fan.service"
-    install -D -m755 "start-facer.sh" "${pkgdir}/usr/lib/acer-facer/start-facer.sh"
-    install -D -m755 "${srcdir}/${pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -D -m755 "${srcdir}/${_reponame}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

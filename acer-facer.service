@@ -10,8 +10,8 @@ Type=simple
 Restart=no
 RemainAfterExit=yes
 User=root
-WorkingDirectory=/usr/lib/acer-facer
-ExecStart=/bin/bash ./start-facer.sh
+WorkingDirectory=/opt/turbo-fan/
+ExecStart=/bin/bash ./install.sh
 ExecStop=/bin/bash ./uninstall.sh
 
 [Install]
