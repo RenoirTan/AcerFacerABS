@@ -3,8 +3,8 @@
 _pkgname='acer-facer'
 pkgname="${_pkgname}-git"
 _reponame='acer-predator-turbo-and-rgb-keyboard-linux-module'
-pkgver='r36.e84ab34'
-pkgrel=3
+pkgver=r38.684283c
+pkgrel=1
 pkgdesc='Kernel module and utilities for controlling the RGB keyboard and turbo mode on Acer laptops.'
 url="https://github.com/JafarAkhondali/${_reponame}.git"
 arch=('x86_64')
@@ -24,12 +24,15 @@ pkgver() {
 }
 
 prepare() {
+    cd ..
     # From acer-predator-turbo-and-rgb-keyboard-linux-module/install.sh
-
+    
     if [[ -f "/sys/bus/wmi/devices/7A4DDFE7-5B5D-40B4-8595-4408E0CC7F56/" ]]; then
         echo "[*] Sorry but your device doesn't have the required WMI module"
         exit 1
     fi
+    
+    patch -u ${srcdir}/${_reponame}/uninstall.sh -i uninstall.sh.patch
 }
 
 build() {
